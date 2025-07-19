@@ -32,7 +32,7 @@ export default function Page() {
       </div>
 
       {debates.length === 0 ? (
-        <p className="text-gray-500">No debates found. <span className='bg-white text-red-100'> showing this bcz database commonication failed re run prisma server on docker engine </span></p>
+        <p className="text-gray-500">No debates found. <span className='bg-white text-red-900'> This error is caused by a failure in database communication. Try restarting the Prisma service running in the Docker engine </span></p>
       ) : (
         <ul className="space-y-4">
           {debates.map((debate) => (
