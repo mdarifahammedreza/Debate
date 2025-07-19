@@ -24,7 +24,7 @@ export default function Page() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">🔥 Community Debate Arena</h1>
         <Link
-          href="/debate/create"
+          href="/debates/create"
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           + New Debate
@@ -32,7 +32,7 @@ export default function Page() {
       </div>
 
       {debates.length === 0 ? (
-        <p className="text-gray-500">No debates found.</p>
+        <p className="text-gray-500">No debates found. <span className='bg-white text-red-100'> showing this bcz database commonication failed re run prisma server on docker engine </span></p>
       ) : (
         <ul className="space-y-4">
           {debates.map((debate) => (
