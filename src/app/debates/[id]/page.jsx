@@ -1,11 +1,11 @@
 'use client';
 
-import Argument from '@/components/core/Argument';
-import JoinDebate from '@/components/core/JoinDebate';
-import NewArgumentForm from '@/components/core/NewArgumentForm';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Argument from '../../components/core/Argument';
+import JoinDebate from '../../components/core/JoinDebate';
+import NewArgumentForm from '../../components/core/NewArgumentForm';
 
 export default function DebateDetailPage({ params }) {
   const { id } = params;
