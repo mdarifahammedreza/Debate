@@ -1,0 +1,153 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Debate API",
+    "version": "1.0.0",
+    "description": "API documentation for the Debate platform."
+  },
+  "paths": {
+    "/api/debates": {
+      "get": {
+        "summary": "Get all debates or a single debate by id (query param)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Debate id (optional)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "A list of debates or a single debate." }
+        }
+      },
+      "post": {
+        "summary": "Create a new debate (auth required)",
+        "responses": { "201": { "description": "Debate created." } }
+      },
+      "put": {
+        "summary": "Update a debate (auth required)",
+        "responses": { "200": { "description": "Debate updated." } }
+      },
+      "delete": {
+        "summary": "Delete a debate (auth required)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Debate id"
+          }
+        ],
+        "responses": { "200": { "description": "Debate deleted." } }
+      }
+    },
+    "/api/debates/{id}/join": {
+      "post": {
+        "summary": "Join a debate as a participant (auth required)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Debate id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "side": { "type": "string", "enum": ["SUPPORT", "OPPOSE"] }
+                },
+                "required": ["side"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Joined debate." } }
+      }
+    },
+    "/api/arguments": {
+      "get": {
+        "summary": "Get all arguments for a debate",
+        "parameters": [
+          {
+            "name": "debateId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Debate id"
+          }
+        ],
+        "responses": { "200": { "description": "A list of arguments." } }
+      },
+      "post": {
+        "summary": "Create an argument (auth required)",
+        "responses": { "201": { "description": "Argument created." } }
+      },
+      "put": {
+        "summary": "Update an argument (auth required)",
+        "responses": { "200": { "description": "Argument updated." } }
+      },
+      "delete": {
+        "summary": "Delete an argument (auth required)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Argument id"
+          }
+        ],
+        "responses": { "200": { "description": "Argument deleted." } }
+      }
+    },
+    "/api/votes": {
+      "get": {
+        "summary": "Get all votes for an argument",
+        "parameters": [
+          {
+            "name": "argumentId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Argument id"
+          }
+        ],
+        "responses": { "200": { "description": "A list of votes." } }
+      },
+      "post": {
+        "summary": "Cast a vote for an argument (auth required)",
+        "responses": { "201": { "description": "Vote cast." } }
+      },
+      "delete": {
+        "summary": "Remove a vote (auth required)",
+        "parameters": [
+          {
+            "name": "argumentId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Argument id"
+          }
+        ],
+        "responses": { "200": { "description": "Vote removed." } }
+      }
+    },
+    "/api/scoreboard": {
+      "get": {
+        "summary": "Get the leaderboard (users and their total votes)",
+        "responses": {
+          "200": { "description": "A list of users and their total votes." }
+        }
+      }
+    }
+  }
+}

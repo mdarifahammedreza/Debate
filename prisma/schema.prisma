@@ -1,0 +1,77 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  image     String?
+  arguments Argument[]
+  debates   Debate[]
+  votes     Vote[]
+  participants Participant[]
+  createdAt DateTime   @default(now())
+}
+
+model Debate {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  tags        String[]
+  category    String
+  bannerUrl   String
+  createdBy   User          @relation(fields: [userId], references: [id])
+  userId      String
+  startTime   DateTime      @default(now())
+  endTime     DateTime
+  arguments   Argument[]
+  participants Participant[]
+  createdAt   DateTime      @default(now())
+}
+
+model Participant {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  debate    Debate   @relation(fields: [debateId], references: [id])
+  debateId  String
+  side      Side
+  joinedAt  DateTime @default(now())
+
+  @@unique([userId, debateId])
+}
+
+model Argument {
+  id        String   @id @default(cuid())
+  content   String
+  side      Side
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  debate    Debate   @relation(fields: [debateId], references: [id])
+  debateId  String
+  createdAt DateTime @default(now())
+  votes     Vote[]
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  argument   Argument @relation(fields: [argumentId], references: [id])
+  argumentId String
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, argumentId])
+}
+
+enum Side {
+  SUPPORT
+  OPPOSE
+}
